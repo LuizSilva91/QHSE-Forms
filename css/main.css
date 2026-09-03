@@ -2008,3 +2008,254 @@ body.dialog-open {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Legionella hot and cold water temperature checks */
+.water-temperature-form,
+.water-outlet-list {
+  display: grid;
+  gap: 13px;
+}
+
+.water-guidance {
+  padding: 13px 14px;
+  border-left: 4px solid #1686c7;
+  border-radius: 12px;
+  background: #eaf7ff;
+}
+
+.water-guidance b,
+.water-guidance small {
+  display: block;
+}
+
+.water-guidance small {
+  margin-top: 5px;
+  color: #455d6b;
+  line-height: 1.45;
+}
+
+.water-temperature-form .control-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #423c39;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.water-temperature-form .control-group label span {
+  color: #b31616;
+}
+
+.water-temperature-form .control-group > small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.water-temperature-form input,
+.water-temperature-form select,
+.water-temperature-form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 13px;
+  border: 1px solid #cfc7c2;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 16px;
+}
+
+.water-temperature-form textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.water-outlet-card {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  border: 1px solid #d8dde0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, #f8fcfe);
+  box-shadow: 0 6px 18px rgba(20, 60, 80, 0.08);
+}
+
+.water-outlet-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #1686c7, #25b9d4);
+}
+
+.water-outlet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.water-outlet-number {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #123b52;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.water-outlet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.water-outlet-grid .full {
+  grid-column: 1 / -1;
+}
+
+.water-outlet-grid [hidden] {
+  display: none !important;
+}
+
+.water-compliance {
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: #f0f2f3;
+  border: 1px solid #dce1e3;
+}
+
+.water-compliance b,
+.water-compliance small {
+  display: block;
+}
+
+.water-compliance small {
+  margin-top: 4px;
+  color: #526067;
+}
+
+.water-compliance[data-status="Pass"],
+.water-compliance[data-status="Recorded"] {
+  background: #e4f3e7;
+  border-color: #9ac6a2;
+  color: #205d2d;
+}
+
+.water-compliance[data-status="Action"] {
+  background: #fff0eb;
+  border-color: #ff9a7b;
+  color: #a62800;
+}
+
+.water-compliance[data-status="Review"] {
+  background: #fff4df;
+  border-color: #e6b662;
+  color: #7a4c00;
+}
+
+.form-tile[data-start="water-temperature-checks"] .tile-icon {
+  background: linear-gradient(145deg, #1788c8, #0c5f91);
+}
+
+@media (max-width: 600px) {
+  .water-outlet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .water-outlet-grid .full {
+    grid-column: auto;
+  }
+}
+
+
+
+/* Optional Hot, Cold and TMV readings per location */
+.water-temperature-group {
+  position: relative;
+  padding: 12px;
+  border: 1px solid #dce2e5;
+  border-radius: 13px;
+  background: #fbfdfe;
+}
+.water-temperature-group.hot { border-top: 4px solid #e74623; }
+.water-temperature-group.cold { border-top: 4px solid #1686c7; }
+.water-temperature-group.tmv { border-top: 4px solid #8a61b8; }
+.water-temperature-group small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+.water-remedial-group select:disabled {
+  background: #f0f1f2;
+  color: #777;
+  opacity: 1;
+}
+@media (min-width: 760px) {
+  .water-outlet-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .water-outlet-grid .full { grid-column: 1 / -1; }
+  .water-remedial-group { grid-column: 1 / -1; }
+}
+
+
+
+/* Water outlet type: Hot / Cold or TMV */
+.water-hot-cold-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.water-hot-cold-fields[hidden],
+.water-tmv-field[hidden],
+.water-remedial-group[hidden] {
+  display: none !important;
+}
+
+.water-temperature-group {
+  position: relative;
+  padding: 12px;
+  border: 1px solid #dce2e5;
+  border-radius: 13px;
+  background: #fbfdfe;
+}
+
+.water-temperature-group.hot {
+  border-top: 4px solid #e74623;
+}
+
+.water-temperature-group.cold {
+  border-top: 4px solid #1686c7;
+}
+
+.water-temperature-group.tmv {
+  border-top: 4px solid #8a61b8;
+}
+
+.water-temperature-group small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .water-hot-cold-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* TMV three optional readings */
+.water-outlet-type + .water-hot-cold-fields {
+  margin-top: 0;
+}
