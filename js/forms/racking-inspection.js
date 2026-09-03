@@ -1,4 +1,4 @@
-const defects = {
+﻿const defects = {
   "Front upright": ["Damage", "Twist", "Floor fixing missing / damaged", "Loose floor fixing", "Footplate damage", "Footplate fixing", "Shim incorrect / twisted"],
   "Rear upright": ["Damage", "Twist", "Floor fixing missing / damaged", "Loose floor fixing", "Footplate damage", "Footplate fixing", "Shim incorrect / twisted"],
   "Frame bracing": ["Bottom horizontal", "First diagonal", "Second diagonal", "Third diagonal", "Fourth diagonal", "Fifth diagonal", "Sixth diagonal", "Seventh diagonal", "Top horizontal", "Loose fixing"],
@@ -67,7 +67,7 @@ function addArea(container, areaData = {}, onChange) {
 }
 
 export const rackingInspectionForm = {
-  id:"rack", title:"Racking inspection", icon:"▦", contentTitle:"Areas checked",
+  id:"rack", title:"Racking inspection", icon:"&#128230;", contentTitle:"Areas checked",
   contentIntro:"Add each area, then add location references and all defects found at each location.",
   render(container,data,onChange){
     container.className="entries area-list";
@@ -113,3 +113,5 @@ export const rackingInspectionForm = {
   summaryLines(record){const lines=[];(record.areas||[]).forEach((area,ai)=>{lines.push(`Area ${ai+1}: ${area.area}`);(area.locations||[]).forEach((location,li)=>{lines.push(`  Location ${li+1}: ${location.locationReference||location.location||""}`);(location.defects||[]).forEach((defect,di)=>lines.push(`    Defect ${di+1}: ${defect.component} | ${defect.defect} | ${defect.risk}${defect.comments?` | ${defect.comments}`:""}`));});});return lines;},
   toCsvRows(record){const rows=[];(record.areas||[]).forEach((area)=>(area.locations||[]).forEach((location)=>(location.defects||[]).forEach((defect,index)=>rows.push([area.area,location.locationReference||location.location||"",index+1,defect.component,defect.defect,defect.risk,defect.comments]))));return rows;},
 };
+
+

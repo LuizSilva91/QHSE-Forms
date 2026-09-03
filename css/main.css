@@ -2221,3 +2221,311 @@ body.dialog-open {
 
 .app-head { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 50; }
 body { padding-top: 76px; }
+
+
+/* Emergency lighting form */
+.emergency-lighting-form,
+.emergency-light-list {
+  display: grid;
+  gap: 13px;
+}
+
+.emergency-test-details,
+.emergency-light-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.emergency-test-details {
+  padding: 14px;
+  border: 1px solid #e2d9d4;
+  border-radius: 15px;
+  background: #fffaf7;
+}
+
+.emergency-test-details .full,
+.emergency-light-grid .full {
+  grid-column: 1 / -1;
+}
+
+.emergency-lighting-form .control-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #423c39;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.emergency-lighting-form .control-group label span {
+  color: #b31616;
+}
+
+.emergency-lighting-form input,
+.emergency-lighting-form select,
+.emergency-lighting-form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 13px;
+  border: 1px solid #cfc7c2;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 16px;
+}
+
+.emergency-lighting-form textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.emergency-key {
+  padding: 12px 14px;
+  border-left: 4px solid #ff7a00;
+  border-radius: 12px;
+  background: #fff4df;
+}
+
+.emergency-key b,
+.emergency-key small {
+  display: block;
+}
+
+.emergency-key small {
+  margin-top: 4px;
+  color: #685648;
+  line-height: 1.45;
+}
+
+.emergency-light-card {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  border: 1px solid #ded5cf;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, #fdfaf8);
+  box-shadow: 0 6px 18px rgba(35, 15, 8, 0.06);
+}
+
+.emergency-light-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #ff3a00, #ff9a00);
+}
+
+.emergency-light-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.emergency-light-number {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.form-tile[data-start="emergency-lighting"] .tile-icon {
+  background: linear-gradient(145deg, #ff7a00, #d94b00);
+  font-size: 0.92rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 600px) {
+  .emergency-test-details,
+  .emergency-light-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emergency-test-details .full,
+  .emergency-light-grid .full {
+    grid-column: auto;
+  }
+}
+
+
+/* Emergency lighting bulb icon adjustment */
+.form-tile[data-start="emergency-lighting"] .tile-icon {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+
+/* Shared SVG form icons */
+.tile-icon img,
+.section-icon img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.tile-icon img,
+.section-icon img {
+  filter: brightness(0) invert(1);
+}
+
+.form-tile[data-start="emergency-lighting"] .tile-icon {
+  font-size: inherit;
+  letter-spacing: normal;
+}
+
+
+/* Emoji form icon override */
+.tile-icon,
+.section-icon {
+  overflow: hidden;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  line-height: 1;
+}
+
+.tile-icon {
+  font-size: 1.65rem;
+}
+
+.section-icon {
+  font-size: 1.25rem;
+}
+
+.tile-icon img,
+.section-icon img {
+  display: none;
+}
+
+/* Hide the top-right Records shortcut only */
+
+#recordsBtn {
+  display: none !important;
+}
+
+/* Records grouped by form category */
+.record-category-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.record-category {
+  width: 100%;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto 18px;
+  align-items: center;
+  gap: 13px;
+  padding: 14px;
+  border: 1px solid #ded8d4;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #fff, #fbf8f6);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 7px 22px #1b09030d;
+  cursor: pointer;
+}
+
+.record-category-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #ff3a00, #d72e00);
+  color: #fff;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.record-category-copy {
+  min-width: 0;
+}
+
+.record-category-copy b,
+.record-category-copy small {
+  display: block;
+}
+
+.record-category-copy b {
+  font-size: 0.98rem;
+}
+
+.record-category-copy small {
+  margin-top: 5px;
+  color: var(--muted);
+}
+
+.record-category strong {
+  min-width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.record-category-chevron {
+  color: #ff3a00;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.record-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.category-back {
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid #e1d8d3;
+  border-radius: 11px;
+  background: #fff;
+  color: #bd2d00;
+  font-weight: 800;
+}
+
+.record-category-header span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.records-empty {
+  padding: 20px;
+  border: 1px solid #e1d8d3;
+  border-radius: 15px;
+  background: #fff;
+  text-align: center;
+}
+
+.records-empty b,
+.records-empty small {
+  display: block;
+}
+
+.records-empty small {
+  margin-top: 5px;
+  color: var(--muted);
+}
+
+@media (min-width: 700px) {
+  .record-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

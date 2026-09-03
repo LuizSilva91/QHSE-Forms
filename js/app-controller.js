@@ -1,4 +1,4 @@
-import { getForm } from "./forms/registry.js";
+﻿import { forms, getForm } from "./forms/registry.js";
 import { $, $$, today, ukDate, ukDateTime, validUKDate, uid } from "./core/utils.js";
 import { exportBackup, exportCsv, importBackup } from "./core/data-transfer.js";
 import { openDB, configureStorage, all, put, del } from "./core/storage.js";
@@ -10,12 +10,13 @@ let currentId;
 let shareRecord;
 let filter = "all";
 let dialogConfirmAction = null;
+let recordsCategory = null;
 
 function show(which) {
   ["home", "editorView", "recordsView"].forEach(
     (x) => ($("#" + x).hidden = x !== which),
   );
-  if (which === "home") $("#pageTitle").textContent = "Digital inspections";
+  if (which === "home") { recordsCategory = null; $("#pageTitle").textContent = "Digital inspections"; }
   $("#backBtn").hidden = which === "home";
   $("#recordsBtn").hidden = which !== "home";
   $$(".bottom-nav button").forEach((b) =>
@@ -42,7 +43,7 @@ function start(type, data = {}) {
   $("#pageTitle").textContent = definition.title;
   $("#formState").textContent = "Inspection";
   const optionalNotes = type === "rack" ? field("General comments", "notes", data.notes, true) : "";
-  $("#editor").innerHTML = `<section class="section inspection-card"><div class="section-title"><span class="section-icon">✓</span><div><h2>Inspection details</h2><p class="section-note"><strong>EMG - Nestle</strong></p></div></div><div class="fields">${field("Inspection date *", "date", data.date || today(), false, "date")}${field("Inspector name *", "inspector", data.inspector)}${optionalNotes}</div></section><section class="section"><div class="section-title"><span class="section-icon">${definition.icon}</span><div><h2>${definition.contentTitle}</h2><p class="section-note">${definition.contentIntro}</p></div></div><div id="formContent"></div></section><div class="form-actions single"><button>Save inspection</button></div>`;
+  $("#editor").innerHTML = `<section class="section inspection-card"><div class="section-title"><span class="section-icon">✓</span><div><h2>Inspection details</h2><p class="section-note"><strong>EMG - Nestle</strong></p></div></div><div class="fields">${field("Inspection date *", "date", data.date || today(), false, "date")}${field("Name *", "inspector", data.inspector)}${optionalNotes}</div></section><section class="section"><div class="section-title"><span class="section-icon">${definition.icon}</span><div><h2>${definition.contentTitle}</h2><p class="section-note">${definition.contentIntro}</p></div></div><div id="formContent"></div></section><div class="form-actions single"><button>Save inspection</button></div>`;
   const dateInput=$("#editor").querySelector("[name=date]");
   dateInput.addEventListener("input",(event)=>{const numbers=event.target.value.replace(/\D/g,"").slice(0,8);event.target.value=numbers.length>4?`${numbers.slice(0,2)}/${numbers.slice(2,4)}/${numbers.slice(4)}`:numbers.length>2?`${numbers.slice(0,2)}/${numbers.slice(2)}`:numbers;event.target.setCustomValidity(event.target.value&&!validUKDate(event.target.value)?"Enter a valid date as DD/MM/YYYY":"");});
   $("#editor").onsubmit=(event)=>{event.preventDefault();const date=event.target.querySelector("[name=date]");date.setCustomValidity(validUKDate(date.value)?"":"Enter a valid date as DD/MM/YYYY");definition.validate($("#formContent"));if(event.target.reportValidity())save();};
@@ -81,42 +82,107 @@ function showSuccess(time) {
     }, 3200);
   });
 }
-async function records() {
-  let a = (await all()).sort((x, y) =>
-    (y.updated || "").localeCompare(x.updated || ""),
+async function records(category = recordsCategory) {
+  const submitted = (await all())
+    .filter((record) => record.status === "Submitted")
+    .sort((left, right) =>
+      (right.updated || "").localeCompare(left.updated || ""),
+    );
+
+  $("#recordCount").textContent = submitted.length;
+  const list = $("#recordList");
+  list.innerHTML = "";
+
+  if (!category) {
+    recordsCategory = null;
+    $("#pageTitle").textContent = "Records";
+
+    const categoryGrid = document.createElement("div");
+    categoryGrid.className = "record-category-grid";
+
+    forms.forEach((definition) => {
+      const count = submitted.filter(
+        (record) => record.type === definition.id,
+      ).length;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "record-category";
+      button.innerHTML = `
+        <span class="record-category-icon">${definition.icon}</span>
+        <span class="record-category-copy">
+          <b>${definition.title}</b>
+          <small>${count} ${count === 1 ? "submitted form" : "submitted forms"}</small>
+        </span>
+        <strong aria-label="${count} submitted">${count}</strong>
+        <span class="record-category-chevron" aria-hidden="true">&rsaquo;</span>`;
+      button.addEventListener("click", () => records(definition.id));
+      categoryGrid.append(button);
+    });
+
+    list.append(categoryGrid);
+    show("recordsView");
+    return;
+  }
+
+  const definition = getForm(category);
+  if (!definition) {
+    recordsCategory = null;
+    await records(null);
+    return;
+  }
+
+  recordsCategory = category;
+  $("#pageTitle").textContent = `${definition.title} records`;
+
+  const categoryHeader = document.createElement("div");
+  categoryHeader.className = "record-category-header";
+  categoryHeader.innerHTML = `
+    <button type="button" class="category-back">&lsaquo; All categories</button>
+    <span>${submitted.filter((record) => record.type === category).length} submitted</span>`;
+  categoryHeader.querySelector(".category-back").addEventListener("click", () => {
+    recordsCategory = null;
+    records();
+  });
+  list.append(categoryHeader);
+
+  const categoryRecords = submitted.filter(
+    (record) => record.type === category,
   );
-  $("#recordCount").textContent = a.length;
-  let shown = a,
-    l = $("#recordList");
-  l.innerHTML = shown.length
-    ? ""
-    : '<div class="device-card"><span>○</span><div><b>No records here</b><small>Completed forms will appear in this list.</small></div></div>';
-  shown.forEach((r) => {
-    let e = document.createElement("article");
-    e.className = "record";
-    e.innerHTML = `<div class="record-top"><div><h3>${r.title}</h3><p>${ukDate(r.date)} · ${r.inspector || "No inspector"}</p><p>${r.submittedAt ? `Submitted ${r.submittedAt} · ` : ""}EMG - Nestle · ${getForm(r.type)?.recordDescription(r) || ""}</p></div><span class="status ${r.status}">${r.status}</span></div><div class="record-actions"><button class="open">Open</button><button class="share">Send / share</button><button class="delete">×</button></div>`;
-    e.querySelector(".open").onclick = () => start(r.type, r);
-    e.querySelector(".share").onclick = () => openShare(r);
-    e.querySelector(".delete").onclick = () => {
+
+  if (!categoryRecords.length) {
+    const empty = document.createElement("div");
+    empty.className = "records-empty";
+    empty.innerHTML = `<b>No ${definition.title.toLowerCase()} records</b><small>Submitted forms in this category will appear here.</small>`;
+    list.append(empty);
+  }
+
+  categoryRecords.forEach((record) => {
+    const item = document.createElement("article");
+    item.className = "record";
+    item.innerHTML = `<div class="record-top"><div><h3>${record.title}</h3><p>${ukDate(record.date)} &middot; ${record.inspector || "No inspector"}</p><p>${record.submittedAt ? `Submitted ${record.submittedAt} &middot; ` : ""}EMG - Nestle &middot; ${definition.recordDescription(record) || ""}</p></div><span class="status ${record.status}">${record.status}</span></div><div class="record-actions"><button class="open">Open</button><button class="share">Send / share</button><button class="delete">&times;</button></div>`;
+
+    item.querySelector(".open").onclick = () => start(record.type, record);
+    item.querySelector(".share").onclick = () => openShare(record);
+    item.querySelector(".delete").onclick = () => {
       showAppDialog(
         "Delete this record?",
-        `${r.title} from ${ukDate(r.date)} will be permanently removed from this device.`,
+        `${record.title} from ${ukDate(record.date)} will be permanently removed from this device.`,
         {
           variant: "danger",
-          icon: "×",
+          icon: "Ã—",
           confirmText: "Delete record",
           cancelText: "Keep record",
           onConfirm: async () => {
-            await del(r.id);
+            await del(record.id);
             toast("Record deleted from this device");
-            await records();
+            await records(recordsCategory);
           },
         },
       );
     };
-    l.append(e);
+    list.append(item);
   });
-  $("#pageTitle").textContent = "Digital inspections";
+
   show("recordsView");
 }
 function summary(r) {
@@ -284,11 +350,11 @@ function bindUI() {
   $$("[data-start]").forEach((x) =>
     x.addEventListener("click", () => start(x.dataset.start)),
   );
-  $("#recordsBtn").addEventListener("click", records);
-  $("#backBtn").addEventListener("click", () => show("home"));
+  $("#recordsBtn").addEventListener("click", () => { recordsCategory = null; records(); });
+  $("#backBtn").addEventListener("click", () => { if (!$("#recordsView").hidden && recordsCategory) { recordsCategory = null; records(); } else { show("home"); } });
   $$("[data-nav]").forEach((x) =>
     x.addEventListener("click", () =>
-      x.dataset.nav === "records" ? records() : show("home"),
+      x.dataset.nav === "records" ? (recordsCategory = null, records()) : show("home"),
     ),
   );
   $("#exportAll").addEventListener("click", exportAll);
@@ -331,3 +397,4 @@ export function initialiseApplication() {
       throw err;
     });
 }
+

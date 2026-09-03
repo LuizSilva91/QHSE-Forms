@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -8,9 +8,9 @@
     />
     <meta name="theme-color" content="#075f4f" />
     <title>GXO QHSE Forms</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
@@ -35,29 +35,26 @@
         </div>
         <div class="form-grid">
           <button class="form-tile" data-start="meters">
-            <span class="tile-icon">⌁</span
+            <span class="tile-icon">&#128202;</span
             ><span
               ><b>Meter readings</b
               ><small>Gas, water and electricity</small></span
             ><i>›</i></button
           ><button class="form-tile" data-start="rack">
-            <span class="tile-icon">▦</span
+            <span class="tile-icon">&#128230;</span
             ><span
               ><b>Racking inspection</b
               ><small>Defects and risk ratings</small></span
             ><i>›</i>
           </button>
-        </div>
-        <div class="device-card">
-          <span>✓</span>
-          <div>
-            <b>Saved on this device</b
-            ><small
-              >Export a backup regularly. Records do not sync
-              automatically.</small
-            >
-          </div>
-        </div>
+          <button class="form-tile" data-start="emergency-lighting">
+            <span class="tile-icon">&#128161;</span>
+            <span>
+              <b>Emergency lighting test</b>
+              <small>Monthly and annual emergency-light checks</small>
+            </span>
+            <i>&rsaquo;</i>
+          </button>        </div>
       </section>
       <section id="editorView" class="view" hidden>
         <div class="progress">
@@ -145,3 +142,9 @@
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
+
+
+
+
+
+

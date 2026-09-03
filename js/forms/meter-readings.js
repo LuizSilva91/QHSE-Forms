@@ -1,11 +1,11 @@
-function control(label, key, value = "") {
+﻿function control(label, key, value = "") {
   return `<div class="control-group"><label>${label}</label><input data-k="${key}" value="${value || ""}"></div>`;
 }
 
 export const meterReadingsForm = {
   id: "meters",
   title: "Meter readings",
-  icon: "⌁",
+  icon: "&#128202;",
   contentTitle: "Meter readings",
   contentIntro: "Enter the four readings for this inspection.",
 
@@ -50,3 +50,6 @@ export const meterReadingsForm = {
     return (record.items?.length ? record.items : [{}]).map((item) => ["", "", "", "", "", "", `Gas: ${item.gas || ""} | Water: ${item.water || ""} | Electric 1: ${item.electric1 || ""} | Electric 2: ${item.electric2 || ""}`]);
   },
 };
+
+
+
