@@ -83,10 +83,6 @@ QHSE-Forms/
 │   ├── favicon-192.png
 │   ├── favicon-512.png
 │   ├── apple-touch-icon.png
-│   └── icons/
-│       ├── meter-readings.svg
-│       ├── racking-inspection.svg
-│       └── emergency-lighting.svg
 │
 ├── css/
 │   └── main.css
@@ -106,8 +102,6 @@ QHSE-Forms/
         ├── racking-inspection.js
         └── emergency-lighting-test.js
 ```
-
-The SVG files under `assets/icons/` may remain as design assets even when the interface is configured to display emoji form icons.
 
 ## Architecture
 
