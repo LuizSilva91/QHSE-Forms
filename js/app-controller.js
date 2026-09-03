@@ -169,7 +169,7 @@ async function records(category = recordsCategory) {
         `${record.title} from ${ukDate(record.date)} will be permanently removed from this device.`,
         {
           variant: "danger",
-          icon: "Ã—",
+          icon: "⚠",
           confirmText: "Delete record",
           cancelText: "Keep record",
           onConfirm: async () => {

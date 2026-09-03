@@ -34,7 +34,6 @@ Supports detailed warehouse-racking inspections with:
 
 Supports monthly and annual emergency-lighting inspections with:
 
-- Test month
 - Monthly function test or annual duration test
 - Automatically numbered lights
 - Location ID

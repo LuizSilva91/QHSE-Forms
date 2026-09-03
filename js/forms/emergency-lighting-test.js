@@ -9,11 +9,6 @@
   ["R", "Repaired"],
 ];
 
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
-
 const escapeHtml = (value = "") => String(value)
   .replaceAll("&", "&amp;")
   .replaceAll("<", "&lt;")
@@ -104,19 +99,12 @@ export const emergencyLightingTestForm = {
   title: "Emergency lighting test",
   icon: "&#128161;",
   contentTitle: "Emergency lights tested",
-  contentIntro: "Record the test period and the result for each emergency light.",
+  contentIntro: "Record the test type and result for each emergency light.",
 
   render(container, data, onChange) {
-    const currentMonth = MONTHS[new Date().getMonth()];
     container.className = "emergency-lighting-form";
     container.innerHTML = `
       <div class="emergency-test-details">
-        <div class="control-group">
-          <label>Test month <span aria-hidden="true">*</span></label>
-          <select class="emergency-test-month" required>
-            ${options(MONTHS, data.testMonth || currentMonth, "Select month")}
-          </select>
-        </div>
         <div class="control-group">
           <label>Test type <span aria-hidden="true">*</span></label>
           <select class="emergency-test-type" required>
@@ -143,8 +131,8 @@ export const emergencyLightingTestForm = {
 
   validate(container) {
     const cards = [...container.querySelectorAll(".emergency-light-card")];
-    const month = container.querySelector(".emergency-test-month");
-    month.setCustomValidity(cards.length ? "" : "Add at least one emergency light.");
+    const testType = container.querySelector(".emergency-test-type");
+    testType.setCustomValidity(cards.length ? "" : "Add at least one emergency light.");
   },
 
   collect(container) {
@@ -159,7 +147,6 @@ export const emergencyLightingTestForm = {
     }));
 
     return {
-      testMonth: container.querySelector(".emergency-test-month").value,
       testType: container.querySelector(".emergency-test-type").value,
       items,
     };
@@ -172,12 +159,11 @@ export const emergencyLightingTestForm = {
 
   recordDescription(record) {
     const failed = (record.items || []).filter((item) => item.result !== "OK").length;
-    return `${record.testMonth || "No month"} | ${(record.items || []).length} lights | ${failed} requiring attention`;
+    return `${record.testType || "No test type"} | ${(record.items || []).length} lights | ${failed} requiring attention`;
   },
 
   summaryLines(record) {
     const lines = [
-      `Test month: ${record.testMonth || ""}`,
       `Test type: ${record.testType || ""}`,
     ];
     (record.items || []).forEach((item, index) => {
@@ -188,7 +174,7 @@ export const emergencyLightingTestForm = {
 
   toCsvRows(record) {
     return (record.items?.length ? record.items : [{}]).map((item, index) => [
-      `${record.testMonth || ""} - ${record.testType || ""}`,
+      record.testType || "",
       item.locationId || "",
       index + 1,
       item.lampType || "",
