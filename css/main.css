@@ -2351,3 +2351,25 @@ body.dialog-open {
   .flushing-location-grid { grid-template-columns: 1fr; }
   .flushing-location-grid .full { grid-column: auto; }
 }
+
+
+/* Sprinkler valve weekly test */
+.sprinkler-test-form { display:grid; gap:13px; }
+.sprinkler-guidance { padding:13px 14px; border-left:4px solid #c62828; border-radius:12px; background:#fff0f0; }
+.sprinkler-guidance b,.sprinkler-guidance small { display:block; }
+.sprinkler-guidance small { margin-top:5px; color:#675252; line-height:1.45; }
+.sprinkler-group { padding:14px; border:1px solid #e1d8d3; border-radius:15px; background:#fff; }
+.sprinkler-group h3 { margin:0 0 13px; font-size:.95rem; }
+.sprinkler-check-grid,.sprinkler-reading-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.sprinkler-check,.sprinkler-field { min-width:0; }
+.sprinkler-field.full { grid-column:1/-1; }
+.sprinkler-test-form label { display:block; margin-bottom:6px; color:#423c39; font-size:.75rem; font-weight:800; }
+.sprinkler-test-form label span { color:#b31616; }
+.sprinkler-test-form input,.sprinkler-test-form select,.sprinkler-test-form textarea { width:100%; min-width:0; min-height:48px; padding:12px 13px; border:1px solid #cfc7c2; border-radius:12px; background:#fff; color:#111; font:inherit; font-size:16px; }
+.sprinkler-test-form textarea { min-height:96px; resize:vertical; }
+.sprinkler-status { padding:12px 14px; border:1px solid #9ac6a2; border-radius:12px; background:#e4f3e7; color:#205d2d; }
+.sprinkler-status b,.sprinkler-status small { display:block; }
+.sprinkler-status small { margin-top:4px; }
+.sprinkler-status[data-status="Action"] { border-color:#ff9a7b; background:#fff0eb; color:#a62800; }
+.form-tile[data-start="sprinkler-valve-weekly-test"] .tile-icon { background:linear-gradient(145deg,#c62828,#7d1010); }
+@media(max-width:600px){.sprinkler-check-grid,.sprinkler-reading-grid{grid-template-columns:1fr}.sprinkler-field.full{grid-column:auto}}
