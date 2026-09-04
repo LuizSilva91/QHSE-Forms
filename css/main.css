@@ -2259,3 +2259,95 @@ body.dialog-open {
 .water-outlet-type + .water-hot-cold-fields {
   margin-top: 0;
 }
+
+
+/* Weekly flushing of low used outlets */
+.weekly-flushing-form,
+.flushing-location-list {
+  display: grid;
+  gap: 13px;
+}
+.flushing-guidance {
+  padding: 13px 14px;
+  border-left: 4px solid #167f73;
+  border-radius: 12px;
+  background: #e9f7f4;
+}
+.flushing-guidance b,
+.flushing-guidance small { display: block; }
+.flushing-guidance small {
+  margin-top: 5px;
+  color: #45625d;
+  line-height: 1.45;
+}
+.flushing-location-card {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  border: 1px solid #d5dfdc;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff, #f8fcfb);
+  box-shadow: 0 6px 18px rgba(15, 70, 60, 0.08);
+}
+.flushing-location-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #167f73, #34b9a1);
+}
+.flushing-location-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+.flushing-location-number {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #123f39;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+.flushing-location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.flushing-location-grid .full { grid-column: 1 / -1; }
+.weekly-flushing-form .control-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #423c39;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.weekly-flushing-form .control-group label span { color: #b31616; }
+.weekly-flushing-form input,
+.weekly-flushing-form select,
+.weekly-flushing-form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 13px;
+  border: 1px solid #cfc7c2;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 16px;
+}
+.weekly-flushing-form textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+.form-tile[data-start="weekly-outlet-flushing"] .tile-icon {
+  background: linear-gradient(145deg, #167f73, #0a554c);
+}
+@media (max-width: 600px) {
+  .flushing-location-grid { grid-template-columns: 1fr; }
+  .flushing-location-grid .full { grid-column: auto; }
+}
